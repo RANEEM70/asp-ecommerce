@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CodeCrafters_backend_teamwork.src.Abstractions;
 using CodeCrafters_backend_teamwork.src.Entities;
 using CodeCrafters_backend_teamwork.src.Databases;
@@ -55,6 +51,7 @@ namespace CodeCrafters_backend_teamwork.src.Repositories
             if (stock != null)
             {
                 stock.Size = updatedStock.Size;
+                stock.Color = updatedStock.Color;
                 _databaseContext.SaveChanges(); 
                 return stock;
             }

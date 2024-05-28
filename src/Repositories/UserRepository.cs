@@ -19,6 +19,7 @@ public class UserRepository : IUserRepository
 
      public IEnumerable<User> FindMany()
      {
+          _databaseContext.SaveChanges();
           return _users;
      }
      public User CreateOne(User user)
@@ -30,6 +31,7 @@ public class UserRepository : IUserRepository
 
      public User? FindOneByEmail(string email)
      {
+          _databaseContext.SaveChanges();
           User? user = _users.FirstOrDefault(user => user.Email == email);
           return user;
      }
@@ -42,23 +44,22 @@ public class UserRepository : IUserRepository
      }
 
 
-     public User? DeleteOne(Guid userId)
+     public IEnumerable<User>? DeleteOne(Guid userId)
      {
-          var deleteUser = FindOneById(userId);
-          _users.Remove(deleteUser);
-          _databaseContext.SaveChanges();
-          return deleteUser;
+          User? deleteUser = FindOneById(userId);
+          if (deleteUser != null)
+          {
+               _users.Remove(deleteUser);
+               _databaseContext.SaveChanges();
+          }
+
+          return _users;
      }
 
-     private User? FindOneById(Guid userId)
+     public User? FindOneById(Guid userId)
      {
           User? user = _users.FirstOrDefault(user => user.Id == userId);
           return user;
-     }
-
-     User IUserRepository.FindOneById(Guid userId)
-     {
-          throw new NotImplementedException();
      }
 }
 

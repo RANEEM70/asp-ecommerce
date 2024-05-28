@@ -9,7 +9,7 @@ namespace CodeCrafters_backend_teamwork.src.Abstractions
 {
     public interface IStockService
     {
-         public IEnumerable<StockReadDto> FindMany();
+        public IEnumerable<StockReadDto> FindMany();
         public StockReadDto CreateOne(StockCreateDto stock);
         public Stock? FindOne(Guid stockId);
         public IEnumerable<Stock>? DeleteProduct(Guid stockId);

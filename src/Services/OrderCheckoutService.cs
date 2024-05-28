@@ -1,6 +1,5 @@
 using AutoMapper;
 using CodeCrafters_backend_teamwork.src.Abstractions;
-using CodeCrafters_backend_teamwork.src.DTO;
 using CodeCrafters_backend_teamwork.src.DTOs;
 using CodeCrafters_backend_teamwork.src.Entities;
 
@@ -20,11 +19,12 @@ namespace CodeCrafters_backend_teamwork.src.Services
             _mapper = mapper;
         }
 
-        public OrderCheckoutReadDto CreateOne(OrderCheckoutCreateDto newOrderCheckout)
+        public IEnumerable<OrderCheckoutReadDto> CreateOne(OrderCheckoutCreateDto newOrderCheckout)
         {
             OrderCheckout orderCheckout = _mapper.Map<OrderCheckout>(newOrderCheckout);
-            _orderCheckoutRepo.CreateOne(orderCheckout);
-            return _mapper.Map<OrderCheckoutReadDto>(orderCheckout);
+            var orderCheckoutList = _orderCheckoutRepo.CreateOne(orderCheckout);
+            var mappedOrdercheckoutList = orderCheckoutList.Select(_mapper.Map<OrderCheckoutReadDto>);
+            return mappedOrdercheckoutList;
         }
 
         public IEnumerable<OrderCheckoutReadDto> FindMany()
@@ -50,17 +50,8 @@ namespace CodeCrafters_backend_teamwork.src.Services
             return _orderCheckoutRepo.DeleteOne(orderCheckoutId);
         }
 
-        IEnumerable<OrderCheckout> IOrderCheckoutService.FindMany()
-        {
-            throw new NotImplementedException();
-        }
 
-        public IEnumerable<OrderCheckout> CreateOne(OrderCheckout newOrderCheckout)
-        {
-            throw new NotImplementedException();
-        }
-
-        public OrderCheckout Checkout(List<OrderItemCreateDto> orderItemCreateDtos)
+        public IEnumerable<OrderCheckout> Checkout(List<OrderItemCreateDto> orderItemCreateDtos)
         {
             // create an Order object 
             var orderCheckout = new OrderCheckout();
@@ -79,12 +70,14 @@ namespace CodeCrafters_backend_teamwork.src.Services
 
             }
             // mock data for userId, paymentId, ShippingId
-            orderCheckout.PaymentId = Guid.NewGuid();
-            orderCheckout.ShippingId = Guid.NewGuid();
+            orderCheckout.Payment = "string";
+            orderCheckout.Shipping = "string";
             orderCheckout.UserId = Guid.NewGuid();
             // outside for loop, save order inside order table 
             _orderCheckoutRepo.CreateOne(orderCheckout);
-            return orderCheckout;
+            return (IEnumerable<OrderCheckout>)orderCheckout;
         }
+
+      
     }
 }

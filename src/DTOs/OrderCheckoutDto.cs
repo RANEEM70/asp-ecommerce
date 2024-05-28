@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace CodeCrafters_backend_teamwork.src.DTOs
 {
     public class OrderCheckoutReadDto
     {
          public Guid Id {get ; set;}
-        public int PaymentId {get ; set;}
+        public required string Payment {get ; set;}
         public Guid UserId {get ; set;}
-        public int ShippingId {get ; set;}
+        public required string Shipping {get ; set;}
         public required string Status {get ; set;}
         public double TotalPrice {get ; set;}
     }
@@ -18,10 +15,10 @@ namespace CodeCrafters_backend_teamwork.src.DTOs
 
      public class OrderCheckoutCreateDto
      {
-        public Guid Id {get ; set;}
-        public int PaymentId {get ; set;}
-        public int UsersId {get ; set;}
-        public int ShippingId {get ; set;}
+    
+        public string Payment {get ; set;}
+        public Guid UsersId {get ; set;}
+        public string Shipping {get ; set;}
         public required string Status {get ; set;}
         public double TotalPrice {get ; set;}
     }
@@ -29,9 +26,9 @@ namespace CodeCrafters_backend_teamwork.src.DTOs
      public class OrderCheckoutUpdateDto
      {
         public Guid Id {get ; set;}
-        public int PaymentId {get ; set;}
+        public required string Payment {get ; set;}
         public int UsersId {get ; set;}
-        public int ShippingId {get ; set;}
+        public required string Shipping {get ; set;}
         public required string Status {get ; set;}
         public double TotalPrice {get ; set;}
     }

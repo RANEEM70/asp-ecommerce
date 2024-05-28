@@ -19,18 +19,12 @@ namespace CodeCrafters_backend_teamwork.src.Controller
         public CategoryController(ICategoryService categoryService)
 
         {
-
             _categoryService = categoryService;
         }
-        [Authorize]
+  
         [HttpGet]
         public ActionResult<IEnumerable<CategoryReadDto>> FindMany()
         {
-            var userId = ClaimTypes.NameIdentifier;
-            var userEmail = ClaimTypes.Email;
-
-            Console.WriteLine($"user Id {userId}");
-            Console.WriteLine($"user email {userEmail}");
 
             return Ok(_categoryService.FindMany());
 

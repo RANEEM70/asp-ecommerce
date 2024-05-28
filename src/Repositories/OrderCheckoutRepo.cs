@@ -55,6 +55,8 @@ namespace CodeCrafters_backend_teamwork.src.Reository
             if (orderCheckout != null)
             {
                 orderCheckout.Id = updatedCheckout.Id;
+                _databaseContext.SaveChanges();
+                
                 return orderCheckout;
             }
 

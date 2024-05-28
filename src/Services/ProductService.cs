@@ -1,11 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CodeCrafters_backend_teamwork.src.Entities;
 using CodeCrafters_backend_teamwork.src.Abstractions;
-using CodeCrafters_backend_teamwork.src.Controllers;
-using CodeCrafters_backend_teamwork.src.Databases;
 using CodeCrafters_backend_teamwork.src.DTOs;
 using AutoMapper;
 
@@ -21,17 +15,22 @@ public class ProductService : IProductService
         _productRepository = productRepository;
         _mapper = mapper;
     }
-    public IEnumerable<ProductReadDto> FindMany()
+    public IEnumerable<ProductReadDto> FindMany(string? searchBy)
     {
         IEnumerable<Product> products = _productRepository.FindMany();
+        if (searchBy is not null)
+        {
+            products = products.Where(product => product.Name.ToLower().Contains(searchBy.ToLower()));
+        }
+         
         return products.Select(_mapper.Map<ProductReadDto>);
     }
-    public ProductReadDto CreateOne(ProductCreateDto newProduct)
+    public IEnumerable<ProductReadDto> CreateOne(ProductCreateDto newProduct)
     {
         Product product = _mapper.Map<Product>(newProduct);
-        _productRepository.CreateOne(product);
-
-        return _mapper.Map<ProductReadDto>(product);
+            var productList = _productRepository.CreateOne(product);
+            var mappedProductList = productList.Select(_mapper.Map<ProductReadDto>);
+            return mappedProductList;
     }
 
     public Product? FindOne(Guid productId)

@@ -12,6 +12,6 @@ namespace CodeCrafters_backend_teamwork.src.Abstractions
         public UserReadDto? FindOneByEmail(string email);
         public User UpdateOne(string email, User newValue);
         public UserReadDto FindOneById(Guid id);
-        public User DeleteOne(Guid userId);
+        public IEnumerable<User> DeleteOne(Guid userId);
     }
 }

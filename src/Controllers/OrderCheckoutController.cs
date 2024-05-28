@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CodeCrafters_backend_teamwork.src.Abstractions;
-using CodeCrafters_backend_teamwork.src.Controllers;
-using CodeCrafters_backend_teamwork.src.DTO;
+using CodeCrafters_backend_teamwork.src.DTOs;
 using CodeCrafters_backend_teamwork.src.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CodeCrafters_backend_teamwork.src.Controller
+namespace CodeCrafters_backend_teamwork.src.Controllers
 {
     public class OrderCheckoutController : CustomizedController
     {
@@ -25,7 +20,7 @@ namespace CodeCrafters_backend_teamwork.src.Controller
 
 
         [HttpGet]
-        public ActionResult<IEnumerable<OrderCheckout>> FindMany()
+        public ActionResult<IEnumerable<OrderCheckoutReadDto>> FindMany()
         {
 
             return Ok( _orderCheckoutService.FindMany());
@@ -42,11 +37,11 @@ namespace CodeCrafters_backend_teamwork.src.Controller
 
 
         [HttpPost]
-        public ActionResult<IEnumerable<OrderCheckout>> CreateOne([FromBody] OrderCheckout orderCheckout)
+        public ActionResult<IEnumerable<OrderCheckoutReadDto>> CreateOne([FromBody] OrderCheckoutCreateDto  newOrderCheckout)
 
         {
 
-            return Ok(_orderCheckoutService.CreateOne(orderCheckout));
+            return CreatedAtAction(nameof(CreateOne), _orderCheckoutService.CreateOne(newOrderCheckout));
 
         }
 
@@ -63,9 +58,10 @@ namespace CodeCrafters_backend_teamwork.src.Controller
         {
             return _orderCheckoutService.UpdateOne(orderCheckoutId, updatedCheckout);
         }
+
         [HttpPost("/checkout")]
-        public OrderCheckout Checkout(List<OrderItemCreateDto> orderItemCreateDtos)
+        public IEnumerable<OrderCheckout> Checkout(List<OrderItemCreateDto> neworderItemCreateDtos)
         {
-            return _orderCheckoutService.Checkout(orderItemCreateDtos); 
+            return _orderCheckoutService.Checkout(neworderItemCreateDtos); 
         }
 }}
