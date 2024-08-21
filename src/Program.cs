@@ -47,7 +47,8 @@ builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 // configuring DB
 var _config = builder.Configuration;
-var dataSourceBuilder = new NpgsqlDataSourceBuilder(@$"Host={_config["Db_Host"]};Username={_config["Db_Username"]};Database={_config["Db_Database"]};Password={_config["Db_Password"]}");
+var dataSourceBuilder = new NpgsqlDataSourceBuilder(
+    @$"Host={_config["Db_Host"]};Username={_config["Db_Username"]};Database={_config["Db_Database"]};Password={_config["Db_Password"]}");
 dataSourceBuilder.MapEnum<Role>();
 
 var dataSource = dataSourceBuilder.Build();
